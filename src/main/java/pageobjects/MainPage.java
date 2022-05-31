@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.function.Function;
 
@@ -36,24 +35,7 @@ public class MainPage extends AbstractPage{
     }
 
     public CatalogCategoryPage openCatalog(){
-        mainPageHeader.openCatalogClick();
-        return new CatalogCategoryPage(driver);
-    }
-
-    public WebElement getCatalogMenuItem(String item){
-        try {
-            return driver.findElement(By.xpath(String.format("//div[@class = 'catalog-menu__section']/a[text()='%s']", item)));
-        } catch (NoSuchElementException e) {
-            throw new NoSuchElementException(String.format("There is no menu item with name '%s'", item));
-        }
-    }
-
-    public CatalogCategoryPage openCatalogItem(String category){
-        try {
-            driver.findElement(By.xpath(String.format("//div[@class = 'catalog-menu__section']/descendant::a[text()='%s']", category))).click();
-        } catch (NoSuchElementException e) {
-            throw new NoSuchElementException(String.format("There is no category with name '%s'", category));
-        }
+        mainPageHeader.openCatalog();
         return new CatalogCategoryPage(driver);
     }
 

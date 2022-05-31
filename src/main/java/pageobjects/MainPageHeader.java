@@ -32,16 +32,22 @@ public class MainPageHeader extends AbstractPage{
     @FindBy(xpath = "//li[@class = 'menu-vertical__item group ']/descendant::a[text()='Одяг']/parent::li")
     private WebElement catalogOpenButton;
 
-    @FindBy(xpath = "//span[.='Кошик']")
+    @FindBy(css = ".header_quantity")
     private WebElement cart;
 
     public String getCartProductsNumber(){
-        String numberOfItems = cart.findElement(By.xpath("./following-sibling::span")).getText();
-        if (numberOfItems.isEmpty()){
-            return "0";
-        } else {
-            return numberOfItems;
+        try {
+            Thread.sleep(1000);
+            String numberOfItems = cart.getText();
+            if (numberOfItems.isEmpty()){
+                return "0";
+            } else {
+                return numberOfItems;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return "0";
     }
 
     public WebElement getHeaderMenuItem(String item){
@@ -56,7 +62,7 @@ public class MainPageHeader extends AbstractPage{
         getHeaderMenuItem(item).click();
     }
 
-    public void openCatalogClick(){
+    public void openCatalog(){
         catalogOpenButton.click();
     }
 

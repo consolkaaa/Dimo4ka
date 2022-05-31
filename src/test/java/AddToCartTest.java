@@ -1,9 +1,9 @@
+import enums.CatalogItems;
+import enums.ProductItem;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pageobjects.MainPage;
 import pageobjects.CatalogCategoryPage;
-
-import static enums.CatalogItems.SHIRTS;
 
 
 public class AddToCartTest extends BaseTest{
@@ -11,12 +11,14 @@ public class AddToCartTest extends BaseTest{
     @Test
     public  void Test1(){
         CatalogCategoryPage catalogCategoryPage = new MainPage(driver)
-                .openCatalog();
+                .openCatalog()
+                .openCatalogCategory(CatalogItems.SUKNI.getName());
         String numberOfItemsInCart = catalogCategoryPage
                 .getMainPageHeader()
                 .getCartProductsNumber();
         String numberOfItemsInCartAfterAddingProduct = catalogCategoryPage
-                .clickBuyProduct(SHIRTS.getName())
+                .clickBuyProduct(ProductItem.DRESS_ISSA_PLUS.getName())
+                .selectRandomSize()
                 .getMainPageHeader()
                 .getCartProductsNumber();
 

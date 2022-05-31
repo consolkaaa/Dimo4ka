@@ -9,6 +9,7 @@ public enum CatalogItems {
     Clothing("Одяг"),
     Footwear("Взуття"),
     DRESS("Плаття"),
+    SUKNI("Сукні"),
     SHIRTS("Сорочки"),
     ForСhildren("Дітям"),
     HouseholdGoods("Побутова хімія і госптовари"),
