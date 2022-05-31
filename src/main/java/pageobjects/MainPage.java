@@ -1,13 +1,23 @@
 package pageobjects;
 
 import enums.MenuItems;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class MainPage {
+import java.util.function.Function;
+
+public class MainPage extends AbstractPage{
 
     private MainPageHeader mainPageHeader;
     private WebDriver driver;
+
+    @FindBy(xpath = "//div[@class = 'catalog-menu__section']/a[text()='Чоловікам']")
+    private WebElement manCatalogButton;
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -23,5 +33,32 @@ public class MainPage {
     public CartPage openCartPage(){
         mainPageHeader.clickHeaderMenuItem(MenuItems.CART.getName());
         return new CartPage(driver).waitUntilLoaded();
+    }
+
+    public CatalogCategoryPage openCatalog(){
+        mainPageHeader.openCatalogClick();
+        return new CatalogCategoryPage(driver);
+    }
+
+    public WebElement getCatalogMenuItem(String item){
+        try {
+            return driver.findElement(By.xpath(String.format("//div[@class = 'catalog-menu__section']/a[text()='%s']", item)));
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException(String.format("There is no menu item with name '%s'", item));
+        }
+    }
+
+    public CatalogCategoryPage openCatalogItem(String category){
+        try {
+            driver.findElement(By.xpath(String.format("//div[@class = 'catalog-menu__section']/descendant::a[text()='%s']", category))).click();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException(String.format("There is no category with name '%s'", category));
+        }
+        return new CatalogCategoryPage(driver);
+    }
+
+    //то теж треба на кожній сторінці юзати, або придумати як то винести в AbstractPage
+    public void waitUntil(Function condition) {
+        getWebDriverWait(driver).until(condition);
     }
 }

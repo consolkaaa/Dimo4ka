@@ -1,5 +1,6 @@
 package pageobjects;
 
+import com.sun.tools.javac.util.Convert;
 import enums.MenuItems;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -7,6 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.function.Function;
 
 public class MainPageHeader extends AbstractPage{
     WebDriver driver;
@@ -25,6 +29,21 @@ public class MainPageHeader extends AbstractPage{
     @FindBy(css = ".search__btn")
     private WebElement searchButton;
 
+    @FindBy(xpath = "//li[@class = 'menu-vertical__item group ']/descendant::a[text()='Одяг']/parent::li")
+    private WebElement catalogOpenButton;
+
+    @FindBy(xpath = "//span[.='Кошик']")
+    private WebElement cart;
+
+    public String getCartProductsNumber(){
+        String numberOfItems = cart.findElement(By.xpath("./following-sibling::span")).getText();
+        if (numberOfItems.isEmpty()){
+            return "0";
+        } else {
+            return numberOfItems;
+        }
+    }
+
     public WebElement getHeaderMenuItem(String item){
         try {
             return driver.findElement(By.xpath(String.format("//span[.='%s']/ancestor::div[@class='header-menu_item']", item)));
@@ -37,4 +56,18 @@ public class MainPageHeader extends AbstractPage{
         getHeaderMenuItem(item).click();
     }
 
+    public void openCatalogClick(){
+        catalogOpenButton.click();
+    }
+
+    //для кожної сторінки інший локатор треба вставити
+    public MainPageHeader waitUntilLoaded(){
+        //waitUntil(ExpectedConditions.visibilityOf(addToCart));
+        return this;
+    }
+
+    //то теж треба на кожній сторінці юзати, або придумати як то винести в AbstractPage
+    public void waitUntil(Function condition) {
+        getWebDriverWait(driver).until(condition);
+    }
 }
