@@ -1,9 +1,7 @@
 package pageobjects;
 
 import driver.DriverConfigurator;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,17 +22,35 @@ public class CartPage extends AbstractPage {
     @FindBy(xpath = "//div[@class=\"empty-cart__wrapper\"]")
     public WebElement emptyCart;
 
-    @FindBy(xpath = "//div[@class='cart_item'][1]")
-    public WebElement cartElement;
+    @FindBy(xpath = "//h1[.='Кошик']")
+    public WebElement cartTitle;
 
     public CartPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this); // this initializes @FindBy elements
     }
 
+    public CartPage deleteProduct(String cartProductName){
+        getProductWebElement(cartProductName).findElement(By.xpath(".//div[@class='cart_product-delete']")).click();
+        return this;
+    }
+
+    private WebElement getProductWebElement(String cartProductName){
+        return driver.findElement(By.xpath(String.format("//a[.='%s']/ancestor::div[@class='cart_item']", cartProductName)));
+    }
+
+    public boolean isProductPresentInCart(String cartProductName){
+        try {
+            waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format("//a[.='%s']/ancestor::div[@class='cart_item']", cartProductName))));
+            return getProductWebElement(cartProductName).isDisplayed();
+        } catch (NoSuchElementException | TimeoutException e) {
+            return false;
+        }
+    }
+
     //для кожної сторінки інший локатор треба вставити
     public CartPage waitUntilLoaded(){
-       // waitUntil(ExpectedConditions.visibilityOf());
+        waitUntil(ExpectedConditions.visibilityOf(cartTitle));
         return this;
     }
 

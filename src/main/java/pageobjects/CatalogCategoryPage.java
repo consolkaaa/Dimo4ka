@@ -1,5 +1,6 @@
 package pageobjects;
 
+import enums.MenuItems;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -38,9 +39,10 @@ public class CatalogCategoryPage extends AbstractPage{
     public CatalogCategoryPage clickBuyProduct(String productName) {
         waitUntilProductImagesLoaded();
         try {
+            Thread.sleep(2000);
             WebElement productElement = driver.findElement(By.xpath(String.format("//header[.='%s']/ancestor::div[@class='p__info_container']//button", productName)));
             productElement.click();
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | InterruptedException e) {
             throw new NoSuchElementException(String.format("There is no product with name '%s'", productName));
         }
         return this;

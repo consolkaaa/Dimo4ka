@@ -30,8 +30,7 @@ public class MainPage extends AbstractPage{
     }
 
     public CartPage openCartPage(){
-        mainPageHeader.clickHeaderMenuItem(MenuItems.CART.getName());
-        return new CartPage(driver).waitUntilLoaded();
+        return mainPageHeader.openCartPage();
     }
 
     public CatalogCategoryPage openCatalog(){

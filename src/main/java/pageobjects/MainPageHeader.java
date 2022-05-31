@@ -66,6 +66,11 @@ public class MainPageHeader extends AbstractPage{
         catalogOpenButton.click();
     }
 
+    public CartPage openCartPage(){
+        clickHeaderMenuItem(MenuItems.CART.getName());
+        return new CartPage(driver).waitUntilLoaded();
+    }
+
     //для кожної сторінки інший локатор треба вставити
     public MainPageHeader waitUntilLoaded(){
         //waitUntil(ExpectedConditions.visibilityOf(addToCart));
