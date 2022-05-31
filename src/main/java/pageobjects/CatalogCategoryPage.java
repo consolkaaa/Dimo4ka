@@ -75,6 +75,12 @@ public class CatalogCategoryPage extends AbstractPage{
         return mainPageHeader;
     }
 
+    public boolean isSellersNameDisplayed(String sellersName){
+        String locator = String.format("//div[@class='flex center wrap']/div[.='%s']", sellersName);
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+        return driver.findElement(By.xpath(locator)).isDisplayed();
+    }
+
     //для кожної сторінки інший локатор треба вставити
     public CatalogCategoryPage waitUntilProductImagesLoaded(){
         waitUntil(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'aspect aspect--campaign')]//img"))));

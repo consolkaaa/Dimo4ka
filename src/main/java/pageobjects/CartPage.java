@@ -35,6 +35,13 @@ public class CartPage extends AbstractPage {
         return this;
     }
 
+    public CatalogCategoryPage openSelersPageOfProduct(String cartProductName){
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath(String.format("//a[.='%s']/ancestor::div[@class='cart_item']", cartProductName))));
+        getProductWebElement(cartProductName).findElement(By.xpath("./ancestor::div[@class='cart_content']//a[@class='supplier--name']")).click();
+        driver.switchTo().window(String.valueOf(driver.getWindowHandles().size()));
+        return new CatalogCategoryPage(driver);
+    }
+
     private WebElement getProductWebElement(String cartProductName){
         return driver.findElement(By.xpath(String.format("//a[.='%s']/ancestor::div[@class='cart_item']", cartProductName)));
     }

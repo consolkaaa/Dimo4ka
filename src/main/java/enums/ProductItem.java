@@ -7,10 +7,12 @@ import lombok.Getter;
 public enum ProductItem {
 //    PALTO_ONECOLOUR("Пальто Howick однотонне темно-синє кежуал"),
 //    SHIRT("Сорочка Time of Style однотонна оливкова кежуал"),
-    DRESS_ISSA_PLUS("Nenka жовта сукня з орнаментом короткий трикотаж — виробництво Україна", "Сукня Nenka");
+    DRESS_ISSA_PLUS("Nenka жовта сукня з орнаментом короткий трикотаж — виробництво Україна", "Сукня Nenka", "Liton");
 
     @Getter
     private String name;
     @Getter
     private String cartName;
+    @Getter
+    private String sellersName;
 }
